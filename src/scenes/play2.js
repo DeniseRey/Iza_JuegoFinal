@@ -6,6 +6,7 @@ var cursors;
 var score;
 var gameOver;
 var scoreText;
+var vidaText;
 var vida;
 
 export class Play2 extends Phaser.Scene {
@@ -19,9 +20,9 @@ export class Play2 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON("map", "public/assets/tilemaps/mapaideaiza2.json");
-    this.load.image("tilesBelow", "public/assets/tilemaps/fondo2.png");
-    this.load.image("tilesPlatform", "public/assets/tilemaps/plataformas1.png");
+    this.load.tilemapTiledJSON("map2", "public/assets/tilemaps/mapaideaiza2.json");
+    this.load.image("tilesBelow2", "public/assets/tilemaps/fondo2.png");
+    this.load.image("tilesPlatform2", "public/assets/tilemaps/plataformas1.png");
   }
 
   create() {
@@ -31,14 +32,14 @@ export class Play2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 640, 4320);
         this.physics.world.setBounds(0, 0, 640, 4320);
     
-    const map = this.make.tilemap({ key: "map" });
+    const map = this.make.tilemap({ key: "map2" });
 
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
-    const tilesetBelow = map.addTilesetImage("fondo2", "tilesBelow");
+    const tilesetBelow = map.addTilesetImage("fondo2", "tilesBelow2");
     const tilesetPlatform = map.addTilesetImage(
       "plataformas1",
-      "tilesPlatform"
+      "tilesPlatform2"
     );
 
     const belowLayer = map.createLayer("fondo2", tilesetBelow, 0, 0);
@@ -103,7 +104,16 @@ export class Play2 extends Phaser.Scene {
    this.physics.add.overlap(player, bombs, this.hitBomb, null, this);
 
    gameOver = false;
-   score = 0;
+   score = score||0; 
+   vida = vida||3;
+   scoreText = this.add.text(0, 0, `Miel recolectada: ${score}`, {fontSize: "12px",
+   fill: "#000",})
+   scoreText.scrollFactorX=0
+   scoreText.scrollFactorY=0
+   vidaText = this.add.text(0, 15, `Vidas: ${vida}`, {fontSize: "12px",
+   fill: "#000",})
+   vidaText.scrollFactorX=0
+   vidaText.scrollFactorY=0
 
    this.cameras.main.startFollow(player, true, 0.08, 0.08);
    
@@ -147,6 +157,9 @@ export class Play2 extends Phaser.Scene {
 
    //  Add and update the score
    score += 10;
+    console.log(score)
+    console.log(this.game.scene.scenes)
+    scoreText.setText(`Miel recolectada: ${score}`)
    //scoreText.setText("Miel juntadas: " + score + " / Vidas restantes: " + vida);
   
    if (stars.countActive(true) === 0) {
@@ -189,6 +202,7 @@ export class Play2 extends Phaser.Scene {
    }
    else {
      vida -= 1
+     vidaText.setText(`Vidas: ${vida}`)
      
    }
  }

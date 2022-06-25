@@ -46,7 +46,7 @@ export class Retry extends Phaser.Scene {
       () => {
         // Instrucción para pasar a la escena Play
         this.scene.start(
-          "Play3", 
+          "Play1", 
           { score : 0, 
             vida: 3 });
       }

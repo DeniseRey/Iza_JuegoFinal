@@ -16,6 +16,14 @@ export class Preloads extends Phaser.Scene {
     this.load.image("fondo","../tilemaps/fondo1.png");
     this.load.image("miel","public/assets/imagenes/miel.png");
     this.load.image("abeja","public/assets/imagenes/avispa1.png");
+    this.load.image("playbutton","public/assets/imagenes/jugar.png");
+    this.load.image("playbutton1","public/assets/imagenes/jugar2.png");
+    this.load.image("guiabutton","public/assets/imagenes/guia.png");
+    this.load.image("guiabutton1","public/assets/imagenes/guia2.png");
+    this.load.image("creditosbutton","public/assets/imagenes/creditos.png");
+    this.load.image("creditosbutton1","public/assets/imagenes/creditos2.png");
+    this.load.image("atrasbutton","public/assets/imagenes/atras.png");
+    this.load.image("atrasbutton1","public/assets/imagenes/atras2.png");
     this.load.spritesheet("avispa1", "public/assets/images/spriteavispa.png", {
       frameWidth: 45,
       frameHeight: 45,

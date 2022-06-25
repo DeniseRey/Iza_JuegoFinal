@@ -10,7 +10,7 @@ import { Retry } from "../scenes/retry.js";
 import { Lost } from "../scenes/lost.js";
 import { Win } from "../scenes/win.js";
 
-import { DemoA } from "../scenes/score.js";
+
 
 
 var config = {
@@ -38,7 +38,7 @@ var config = {
   },
   // Listado de todas las escenas del juego, en orden
   // La primera escena es con la cual empieza el juego
-  scene: [Preloads, MainMenu, Tuto, Creditos, Inter1, Inter2, Play1, Play2, Retry, Lost, Win, DemoA,],
+  scene: [Preloads, MainMenu, Tuto, Creditos, Inter1, Inter2, Play1, Play2, Retry, Lost, Win, ],
 };
 
 var game = new Phaser.Game(config);

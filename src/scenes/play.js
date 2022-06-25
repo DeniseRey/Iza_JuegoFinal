@@ -7,13 +7,14 @@ var score;
 var gameOver;
 var scoreText;
 var vida;
+var vidaText;
 var suelo;
 
 
 export class Play1 extends Phaser.Scene {
   constructor() {
     super("Play1");
-  }
+  }  
   
   init (data) {
     score = data.score;
@@ -57,7 +58,7 @@ export class Play1 extends Phaser.Scene {
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.02);
     player.setCollideWorldBounds(true);
-    player.setVelocityY(100);
+    player.setVelocityY(300);
 
 
     //  Input Events
@@ -103,8 +104,16 @@ export class Play1 extends Phaser.Scene {
     this.physics.add.overlap(player, bombs, this.hitBomb, null, this);
 
     gameOver = false;
-    score = 0;
-
+    score = score||0; 
+    vida = vida||3;
+    scoreText = this.add.text(0, 0, `Miel recolectada: ${score}`, {fontSize: "12px",
+    fill: "#000",})
+    scoreText.scrollFactorX=0
+    scoreText.scrollFactorY=0
+    vidaText = this.add.text(0, 15, `Vidas: ${vida}`, {fontSize: "12px",
+    fill: "#000",})
+    vidaText.scrollFactorX=0
+    vidaText.scrollFactorY=0
     
     this.cameras.main.startFollow(player, true, 0.01, 0.01);
     
@@ -157,8 +166,8 @@ export class Play1 extends Phaser.Scene {
     score += 10;
     console.log(score)
     console.log(this.game.scene.scenes)
-    const textArray = this.game.scene.scenes[11].scoreText.text.split(' / ')
-    this.game.scene.scenes[11].scoreText.text = "Miel juntada: "+score+" / " + textArray[1];
+    scoreText.setText(`Miel recolectada: ${score}`)
+    
     //DemoA.updateScore(score)
     // scoreText.setText("Miel juntadas: " + score + " / Vidas restantes: " + vida);
    
@@ -183,8 +192,9 @@ export class Play1 extends Phaser.Scene {
   hitBomb(player, bomb) {
     bomb.destroy();
     vida -= 1
-    const textArray = this.game.scene.scenes[11].scoreText.text.split(' / ')
-    this.game.scene.scenes[11].scoreText.text = textArray[0]+' / Vidas: '+vida;
+    vidaText.setText(`Vidas: ${vida}`)
+    
+
     
     if (vida === 0 ){
       this.physics.pause();
