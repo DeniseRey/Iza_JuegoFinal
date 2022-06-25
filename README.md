@@ -1,2 +1,2 @@
-# Juego en Phaser con cambio de escenas. 
+# Juego final Programación -IZA-
 Concepto de personaje en paracaídas y recolección de objetos. Enemigos hostiles en pantalla que restan vida.
