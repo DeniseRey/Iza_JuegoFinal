@@ -7,6 +7,7 @@ var score;
 var gameOver;
 var scoreText;
 var vida;
+var suelo;
 
 
 export class Play1 extends Phaser.Scene {
@@ -27,7 +28,7 @@ export class Play1 extends Phaser.Scene {
 
   create() {
     console.log(this.game.config)
-
+   
     this.cameras.main.setBounds(0, 0, 640, 4320);
         this.physics.world.setBounds(0, 0, 640, 4320);
     
@@ -48,8 +49,6 @@ export class Play1 extends Phaser.Scene {
    //worldLayer.setCollisionByProperty({ colision: true });
     
 
-    //worldLayer.setCollisionByProperty({ collides: true });
-
     // Find in the Object Layer, the name "dude" and get position
     const spawnPoint = map.findObject("Objetos", (obj) => obj.name === "IZA");
        // The player and its settings
@@ -58,7 +57,7 @@ export class Play1 extends Phaser.Scene {
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.02);
     player.setCollideWorldBounds(true);
-    player.setVelocityY(90);
+    player.setVelocityY(100);
 
 
     //  Input Events
@@ -81,6 +80,7 @@ export class Play1 extends Phaser.Scene {
       }
     });
 
+    //bombs.create(x, y, "abeja");
     // Create empty group of bombs
     bombs = this.physics.add.group();
     objectsLayer.objects.forEach((objData) => {
@@ -144,6 +144,11 @@ export class Play1 extends Phaser.Scene {
     }
     
   }
+
+  hitsuelo(player, suelo){
+  this.scene.start(
+    "Play2", {score, vida}); 
+}
 
   collectStar(player, star) {
     star.disableBody(true, true);

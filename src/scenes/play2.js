@@ -59,7 +59,7 @@ export class Play2 extends Phaser.Scene {
    //  Player physics properties. Give the little guy a slight bounce.
    player.setBounce(0.02);
    player.setCollideWorldBounds(true);
-   player.setVelocityY(1000);
+   player.setVelocityY(100);
 
    //  Input Events
    if ((cursors = !undefined)) {
@@ -136,10 +136,9 @@ export class Play2 extends Phaser.Scene {
  }
  
  meta(player,plataforma){
-   if (player.body.blocked.down) {
-     this.scene.start(
-       "MainMenu", {score, vida}); 
-   }
+   if (player.body.blocked.down) { 
+      this.scene.start(
+        "MainMenu", {score, vida}); }
    
  }
 
