@@ -1,0 +1,10 @@
+
+2) Lograr ubicar los enemigos 
+
+6) Agregar 3 vidas
+7) Como hacer que la interfaz sea estática
+8) Condición de morir al perder 3 corazones 
+o llegar al suelo con poca miel. Necesario? Debería dejar solo la vida?
+
+
+agregar un suelo que cuando lo toque pase a la otra escena
