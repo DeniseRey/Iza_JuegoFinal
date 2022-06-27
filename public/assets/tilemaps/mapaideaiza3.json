@@ -140,7 +140,7 @@
             2681, 2682, 2683, 2684, 2685, 2686, 2687, 2688, 2689, 2690, 2691, 2692, 2693, 2694, 2695, 2696, 2697, 2698, 2699, 2700],
          "height":135,
          "id":1,
-         "name":"fondo2",
+         "name":"fondo3",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -286,7 +286,7 @@
             2711, 2712, 2713, 2714, 2715, 2711, 2712, 2713, 2714, 2715, 2711, 2712, 2713, 2714, 2715, 2711, 2712, 2713, 2714, 2715],
          "height":135,
          "id":3,
-         "name":"plataformas1",
+         "name":"plataformas2",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -397,11 +397,11 @@
         {
          "columns":20,
          "firstgid":1,
-         "image":"fondo2.png",
+         "image":"fondo3.png",
          "imageheight":4320,
          "imagewidth":640,
          "margin":0,
-         "name":"fondo2",
+         "name":"fondo3",
          "spacing":0,
          "tilecount":2700,
          "tileheight":32,
@@ -410,53 +410,17 @@
         {
          "columns":5,
          "firstgid":2701,
-         "image":"plataformas1.png",
+         "image":"plataformas2.png",
          "imageheight":96,
          "imagewidth":160,
          "margin":0,
-         "name":"plataformas1",
+         "name":"plataformas2",
          "spacing":0,
          "tilecount":15,
          "tileheight":32,
          "tiles":[
                 {
-                 "id":10,
-                 "properties":[
-                        {
-                         "name":"colision",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":11,
-                 "properties":[
-                        {
-                         "name":"colision",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":12,
-                 "properties":[
-                        {
-                         "name":"colision",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":13,
-                 "properties":[
-                        {
-                         "name":"colision",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":14,
+                 "id":0,
                  "properties":[
                         {
                          "name":"colision",

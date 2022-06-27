@@ -283,7 +283,7 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
             6, 7, 8, 9, 10, 6, 7, 8, 9, 10, 6, 7, 8, 9, 10, 6, 7, 8, 9, 10,
-            11, 12, 13, 14, 15, 11, 12, 13, 14, 15, 11, 12, 13, 14, 15, 11, 12, 13, 14, 15],
+            11, 12, 11, 11, 15, 11, 12, 13, 14, 15, 11, 12, 13, 14, 15, 11, 12, 13, 14, 15],
          "height":135,
          "id":3,
          "name":"plataformas",
@@ -308,8 +308,8 @@
                  "type":"miel",
                  "visible":true,
                  "width":0,
-                 "x":168,
-                 "y":204
+                 "x":502.666666666667,
+                 "y":1066.66666666667
                 }, 
                 {
                  "height":0,
@@ -320,8 +320,8 @@
                  "type":"miel",
                  "visible":true,
                  "width":0,
-                 "x":458,
-                 "y":282
+                 "x":318,
+                 "y":242
                 }, 
                 {
                  "height":0,
@@ -332,8 +332,8 @@
                  "type":"miel",
                  "visible":true,
                  "width":0,
-                 "x":272.727272727273,
-                 "y":509.090909090909
+                 "x":184.727272727273,
+                 "y":482.424242424242
                 }, 
                 {
                  "height":0,
@@ -344,8 +344,8 @@
                  "type":"miel",
                  "visible":true,
                  "width":0,
-                 "x":536.363636363636,
-                 "y":839.393939393939
+                 "x":304.363636363636,
+                 "y":730.060606060606
                 }, 
                 {
                  "height":0,
@@ -427,8 +427,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":439.393939393939,
-                 "y":757.575757575758
+                 "x":235.393939393939,
+                 "y":686.909090909091
                 }, 
                 {
                  "height":0,
@@ -689,7 +689,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":40,
+ "nextobjectid":41,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",
@@ -707,6 +707,96 @@
          "tilecount":15,
          "tileheight":32,
          "tiles":[
+                {
+                 "id":0,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":1,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":2,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":3,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":4,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":5,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":6,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":7,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":8,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":9,
+                 "properties":[
+                        {
+                         "name":"colision",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
                 {
                  "id":10,
                  "properties":[

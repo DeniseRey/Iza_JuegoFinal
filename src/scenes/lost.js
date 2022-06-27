@@ -9,16 +9,19 @@ export class Lost extends Phaser.Scene {
     super("Lost");
   }
 
-  preload() {
-    this.load.image("phaser_logo", "public/assets/images/phaser_logo.png");
-    this.load.image(
-      "mainmenu_bg",
-      "public/assets/images/main_menu_background.png"
-    );
-  }
 
   create() {
+    
+    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'lost').setScale(0.65,0.65);
+    this.add.image(300, 330, 'izalost').setScale(0.70);
     // Pasa directamente a la escena del menú principal
-    this.scene.start("MainMenu");
+   
+    const boton1 = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY + 250, 'retrybutton').setInteractive({cursor: "pointer"})
+    boton1.on('pointerover', function(){boton1.setTexture('retrybutton1')})
+    boton1.on('pointerout', function(){boton1.setTexture('retrybutton')})
+    boton1.on('pointerdown', () => {this.scene.start("Play1")})
+
+
+   
   }
 }

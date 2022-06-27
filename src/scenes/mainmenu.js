@@ -7,15 +7,11 @@ export class MainMenu extends Phaser.Scene {
     super("MainMenu");
   }
 
-preload()
-{
-
-}
 
 create(){
 
   // Fondo del menú principal
-    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'principal').setScale(1);
+    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'principal').setScale(0.83,1);
     this.add.image(this.cameras.main.centerX, 150, 'iza_logo').setScale(0.90);
    
     const boton3 = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY + this.cameras.main.centerY/12, 'playbutton').setInteractive({cursor: "pointer"})

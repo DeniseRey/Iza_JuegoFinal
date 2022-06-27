@@ -9,16 +9,17 @@ export class Win extends Phaser.Scene {
     super("Win");
   }
 
-  preload() {
-    this.load.image("phaser_logo", "public/assets/images/phaser_logo.png");
-    this.load.image(
-      "mainmenu_bg",
-      "public/assets/images/main_menu_background.png"
-    );
-  }
-
   create() {
+
+    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'win').setScale(0.65,0.65);
+    this.add.image(300, 285, 'izawin').setScale(0.70);
     // Pasa directamente a la escena del menú principal
-    this.scene.start("MainMenu");
+   
+    const boton1 = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY + 250, 'atrasbutton').setInteractive({cursor: "pointer"})
+    boton1.on('pointerover', function(){boton1.setTexture('atrasbutton1')})
+    boton1.on('pointerout', function(){boton1.setTexture('atrasbutton')})
+    boton1.on('pointerdown', () => {this.scene.start("MainMenu")})
+   
+  
   }
 }

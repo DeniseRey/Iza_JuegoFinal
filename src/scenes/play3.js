@@ -9,14 +9,12 @@ var scoreText;
 var vida;
 var vidaText;
 var suelo;
-var tiempo = 0;
-var gota;
 
 
 
-export class Play1 extends Phaser.Scene {
+export class Play3 extends Phaser.Scene {
   constructor() {
-    super("Play1");
+    super("Play3");
   }  
   
   init (data) {
@@ -31,24 +29,21 @@ export class Play1 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 640, 4320);
         this.physics.world.setBounds(0, 0, 640, 4320);
     
-    const map = this.make.tilemap({ key: "map" });
-
-    gota = this.sound.add('gota', {volume: 0.5})
+    const map = this.make.tilemap({ key: "map3" });
 
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
-    const tilesetBelow = map.addTilesetImage("fondo1", "tilesBelow");
+    const tilesetBelow = map.addTilesetImage("fondo3", "tilesBelow3");
     const tilesetPlatform = map.addTilesetImage(
-      "plataformas",
-      "tilesPlatform"
+      "plataformas2",
+      "tilesPlatform3"
     );
 
-    const belowLayer = map.createLayer("fondo1", tilesetBelow, 0, 0);
-    const worldLayer = map.createLayer("plataformas", tilesetPlatform, 0, 0);
+    const belowLayer = map.createLayer("fondo3", tilesetBelow, 0, 0);
+    const worldLayer = map.createLayer("plataformas2", tilesetPlatform, 0, 0);
     const objectsLayer = map.getObjectLayer("Objetos");
-    
  
-    //worldLayer.setCollisionByProperty({ colision: true });
+   //worldLayer.setCollisionByProperty({ colision: true });
     
 
     // Find in the Object Layer, the name "dude" and get position
@@ -60,12 +55,7 @@ export class Play1 extends Phaser.Scene {
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.02);
     player.setCollideWorldBounds(true);
-    player.setVelocityY(150);
-
-    suelo = this.physics.add.sprite(450,4300,"tilesPlatform").setScale(6.0,1).setVisible(false);
-    suelo.setImmovable(true);
-    this.physics.add.collider(player, suelo);
-
+    player.setVelocityY(300);
 
     //  Input Events
     if ((cursors = !undefined)) {
@@ -145,7 +135,10 @@ export class Play1 extends Phaser.Scene {
 
       //player.anims.play("turn");
     }
-
+    //if (cursors.left.isUp || cursors.right.isUp){
+      //player.anims.play("caer", true);
+    //}
+    // REPLACE player.body.touching.down
     if (cursors.up.isDown && player.body.blocked.down) {
       player.setVelocityY(-330);
     }
@@ -153,14 +146,18 @@ export class Play1 extends Phaser.Scene {
   
   meta(player,plataforma){
     if (player.body.blocked.down) {
-      this.time.delayedCall(7000, () => {
-      this.scene.start("Play1"), {score, vida}; 
-    })
-	}
-}
+      this.scene.start(
+        "Win", {score, vida}); 
+    }
+    
+  }
+
+  //hitsuelo(player, suelo){
+  //this.scene.start(
+   // "Play2", {score, vida}); 
+  // }
 
   collectStar(player, star) {
-    gota.play()
     star.disableBody(true, true);
 
     //  Add and update the score
