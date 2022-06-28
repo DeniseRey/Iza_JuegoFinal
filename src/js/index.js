@@ -1,4 +1,5 @@
 import { Preloads } from "../scenes/preloads.js";
+import { Black } from "../scenes/black.js";
 import { MainMenu } from "../scenes/mainmenu.js";
 import { Tuto } from "../scenes/tutorial.js";
 import { Creditos } from "../scenes/creditos.js";
@@ -7,8 +8,9 @@ import { Play2 } from "../scenes/play2.js";
 import { Play3 } from "../scenes/play3.js";
 import { Lost } from "../scenes/lost.js";
 import { Win } from "../scenes/win.js";
-
-
+import { Inter1 } from "../scenes/inter1.js";
+import { Inter2 } from "../scenes/inter2.js";
+import { Inter3 } from "../scenes/inter3.js";
 
 
 var config = {
@@ -36,8 +38,12 @@ var config = {
   },
   // Listado de todas las escenas del juego, en orden
   // La primera escena es con la cual empieza el juego
-  scene: [Preloads, MainMenu, Tuto, Creditos, Play1, Play2, Play3, Lost, Win, ],
+  scene: [Preloads, Black, MainMenu, Tuto, Creditos, Play1, Play2, Play3, Lost, Win, Inter1, Inter2, Inter3 ],
 };
 
 var game = new Phaser.Game(config);
 
+var escena = 0;
+var music1;
+var music2;
+var music3;

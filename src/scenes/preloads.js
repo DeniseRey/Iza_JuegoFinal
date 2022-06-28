@@ -27,10 +27,24 @@ export class Preloads extends Phaser.Scene {
     this.load.image("guiabutton1","public/assets/imagenes/guia2.png");
     this.load.image("retrybutton","public/assets/imagenes/retry.png");
     this.load.image("retrybutton1","public/assets/imagenes/retry2.png");
+    this.load.image("flechabutton","public/assets/imagenes/flecha.png");
+    this.load.image("flechabutton1","public/assets/imagenes/flechaclaro.png");
     this.load.image("creditosbutton","public/assets/imagenes/creditos.png");
     this.load.image("creditosbutton1","public/assets/imagenes/creditos2.png");
     this.load.image("atrasbutton","public/assets/imagenes/atras.png");
+    this.load.image("hit2","public/assets/imagenes/izahit2.png");
+    this.load.image("quiet","public/assets/imagenes/izaquieto.png");
+    this.load.image("inter1","public/assets/imagenes/inter1.png");
+    this.load.image("inter2","public/assets/imagenes/inter2.png");
+    this.load.image("inter3","public/assets/imagenes/inter3.png");
+    this.load.image("click","public/assets/imagenes/click.png");
     this.load.image("atrasbutton1","public/assets/imagenes/atras2.png");
+    this.load.image("avispasola","public/assets/imagenes/avispa1.png");
+    this.load.image("black","public/assets/imagenes/negro.png");
+    this.load.image("vidas","public/assets/imagenes/vidastext.png");
+    this.load.image("mielrecolectada","public/assets/imagenes/mielrecolectada.png")
+    this.load.image("ventana","public/assets/imagenes/ventana.png")
+    this.load.image("ventanamiel","public/assets/imagenes/ventanamiel.png")
     this.load.spritesheet("avispa1", "public/assets/imagenes/spriteavispa.png", {
       frameWidth: 45,
       frameHeight: 45,
@@ -46,14 +60,22 @@ export class Preloads extends Phaser.Scene {
     this.load.tilemapTiledJSON("map", "public/assets/tilemaps/mapaideaiza.json");
     this.load.image("tilesBelow", "public/assets/tilemaps/fondo1.png");
     this.load.image("tilesPlatform", "public/assets/tilemaps/plataformas.png");
-    this.load.tilemapTiledJSON("map3", "public/assets/tilemaps/mapaideaiza3.json");
-    this.load.image("tilesBelow3", "public/assets/tilemaps/fondo3.png");
-    this.load.image("tilesPlatform3", "public/assets/tilemaps/plataformas2.png");
     this.load.tilemapTiledJSON("map2", "public/assets/tilemaps/mapaideaiza2.json");
     this.load.image("tilesBelow2", "public/assets/tilemaps/fondo2.png");
     this.load.image("tilesPlatform2", "public/assets/tilemaps/plataformas1.png");
+    this.load.tilemapTiledJSON("map3", "public/assets/tilemaps/mapaideaiza3.json");
+    this.load.image("tilesBelow3", "public/assets/tilemaps/fondo3.png");
+    this.load.image("tilesPlatform3", "public/assets/tilemaps/plataforma6.png");
     this.load.image("tutorial", "public/assets/imagenes/EjTuto.png");
-    this.load.audio("gota", "public/assets/sounds/gota.mp3")
+    this.load.audio("gota", "public/assets/sounds/gota.mp3");
+    this.load.audio("hit", "public/assets/sounds/hit.mp3");
+    this.load.audio("musica1", "public/assets/sounds/musicalvl1.mp3");
+    this.load.audio("musica2", "public/assets/sounds/musicalvl2.mp3");
+    this.load.audio("musica3", "public/assets/sounds/mainmenumusic.mp3");
+    this.load.audio("musica4", "public/assets/sounds/musicalvl3.mp3");
+    this.load.audio("victory", "public/assets/sounds/victoriasound.mp3");
+    this.load.audio("fail", "public/assets/sounds/fail.mp3");
+    this.load.audio("lose", "public/assets/sounds/lose.mp3");
   }
 
   create() {
@@ -85,7 +107,19 @@ export class Preloads extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: "quieto",
+      frames: [{ key: "quiet", frame: 0 }],
+      frameRate: 20,
+    });
+
+    this.anims.create({
+      key: "golpe",
+      frames: [{ key: "hit2", frame: 0 }],
+      frameRate: 20,
+    });
   
-    this.scene.start("MainMenu");
+    this.scene.start("Black");
   }
 }

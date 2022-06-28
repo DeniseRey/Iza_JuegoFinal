@@ -11,8 +11,12 @@ var vidaText;
 var suelo;
 var tiempo = 0;
 var gota;
-
-
+var hit;
+var miel;
+var fail;
+var playT;
+var vidatext;
+var ventana;
 
 export class Play1 extends Phaser.Scene {
   constructor() {
@@ -24,19 +28,30 @@ export class Play1 extends Phaser.Scene {
     vida = data.vida;
   }
 
-
-
   create() {
 
-    this.cameras.main.setBounds(0, 0, 640, 4320);
-        this.physics.world.setBounds(0, 0, 640, 4320);
+    this.music = this.sound.add("musica1");
+    var musicConfig = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    }
+
+    this.music.play(musicConfig);
+
+    this.cameras.main.setBounds(0, 0, 640, 4288);
+        this.physics.world.setBounds(0, 0, 640, 4288);
     
     const map = this.make.tilemap({ key: "map" });
 
     gota = this.sound.add('gota', {volume: 0.5})
+    hit = this.sound.add("hit", {volume: 0.5})
+    fail = this.sound.add("fail", {volume: 0.5})
 
-    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-    // Phaser's cache (i.e. the name you used in preload)
     const tilesetBelow = map.addTilesetImage("fondo1", "tilesBelow");
     const tilesetPlatform = map.addTilesetImage(
       "plataformas",
@@ -45,86 +60,104 @@ export class Play1 extends Phaser.Scene {
 
     const belowLayer = map.createLayer("fondo1", tilesetBelow, 0, 0);
     const worldLayer = map.createLayer("plataformas", tilesetPlatform, 0, 0);
-    const objectsLayer = map.getObjectLayer("Objetos");
-    
- 
-    //worldLayer.setCollisionByProperty({ colision: true });
-    
+    const objectsLayer = map.getObjectLayer("Objetos"); 
 
-    // Find in the Object Layer, the name "dude" and get position
     const spawnPoint = map.findObject("Objetos", (obj) => obj.name === "IZA");
-       // The player and its settings
     player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "mariposa"); 
     player.anims.play("caer");
  
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.setBounce(0.02);
+
+    player.setBounce(0);
     player.setCollideWorldBounds(true);
-    player.setVelocityY(150);
+    player.setVelocityY(90);
 
     suelo = this.physics.add.sprite(450,4300,"tilesPlatform").setScale(6.0,1).setVisible(false);
     suelo.setImmovable(true);
     this.physics.add.collider(player, suelo);
 
-
-    //  Input Events
+      
     if ((cursors = !undefined)) {
       cursors = this.input.keyboard.createCursorKeys();
     }
-
-    // Create empty group of starts
     stars = this.physics.add.staticGroup();
     objectsLayer.objects.forEach((objData) => {
       const { x = 0, y = 0, name, type } = objData;
       switch (type) {
         case "miel": {
-          // add star to scene
-          // console.log("estrella agregada: ", x, y);
           stars.create(x, y, "miel");
           break;
         }
-
       }
     });
+    
+     //avispa = this.physics.add.sprite(350, 350, "avispa1");
+     /*var avispaGroup = this.add.group([ 
+      { key: 'avispa1', frame: 0, setXY: { x: 300, y: 300, stepX: 52 } }, 
+      { key: 'avispa1', frame: 0, setXY: { x: 32, y: 148, stepX: 52 } },
+      { key: 'avispa1', frame: 0, setXY: { x: 32, y: 148 + 48, stepX: 52 } },
+      { key: 'avispa2', frame: 0, setXY: { x: 350, y: 350, stepX: 52 } },
+      { key: 'avispa1', frame: 0, setXY: { x: 32, y: 148 + 48, stepX: 52 } },
+  ]);*/
 
-    //bombs.create(x, y, "abeja");
-    // Create empty group of bombs
+    /*this.anims.create({
+      key: "avispa1",
+      frames: this.anims.generateFrameNames("avispa1", {start: 0, end: 3}),
+      repeat: -1,
+      frameRate: 10
+
+    })
+
+    /*avispaGroup.children.iterate(avispaGroup => {
+      avispaGroup.play('mala') 
+    })
+    avispa.anims.play("avispa1");*/
+
+
     bombs = this.physics.add.group();
     objectsLayer.objects.forEach((objData) => {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "abeja": {
-          bombs.create(x, y, "avispa");
+          bombs.create(x, y, "avispasola");
           break;
         } 
 
       }
     });
 
-     //  Checks to see if the player overlaps with any platform
     this.physics.add.overlap(player, worldLayer, this.meta, null, this);
-
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, this.collectStar, null, this);
-
     this.physics.add.overlap(player, bombs, this.hitBomb, null, this);
+    this.physics.add.overlap(player, suelo, this.animsSuelo, null, this);
+    /*this.physics.add.overlap(player, avispaGroup, this.hitAvispa, null, this);*/
+  
+    ventana = this.physics.add.sprite(70, 50, "ventana").setScale(0.55);
+    ventana.scrollFactorX=0
+    ventana.scrollFactorY=0
 
     gameOver = false;
     score = score||0; 
     vida = vida||3;
-    scoreText = this.add.text(0, 0, `Miel recolectada: ${score}`, {fontSize: "12px",
-    fill: "#000",})
+    miel = this.physics.add.sprite(40, 60, "miel").setScale(0.60);
+    miel.scrollFactorX=0
+    miel.scrollFactorY=0
+    vidatext = this.physics.add.sprite(55, 35, "vidas").setScale(0.60);
+    vidatext.scrollFactorX=0
+    vidatext.scrollFactorY=0
+ 
+    scoreText = this.add.text(58, 52, `X ${
+      score}`, {fontFamily: "arial",fontSize: "17px",
+    fill: "#FFFFFF",})
     scoreText.scrollFactorX=0
     scoreText.scrollFactorY=0
-    vidaText = this.add.text(0, 15, `Vidas: ${vida}`, {fontSize: "12px",
-    fill: "#000",})
+    vidaText = this.add.text(90, 25, `${vida}`, {fontFamily: "arial", fontSize: "17px",
+    fill: "#FFFFFF",});
     vidaText.scrollFactorX=0
     vidaText.scrollFactorY=0
     
-    this.cameras.main.startFollow(player, true, 0.01, 0.01);
+    this.cameras.main.startFollow(player, true, 0.25, 0.25);
     
         this.cameras.main.setZoom(1);
-
   }
 
   update() {
@@ -143,37 +176,32 @@ export class Play1 extends Phaser.Scene {
       player.anims.play("caer", true);
       player.setVelocityX(0);
 
-      //player.anims.play("turn");
     }
 
     if (cursors.up.isDown && player.body.blocked.down) {
       player.setVelocityY(-330);
     }
+
   }
-  
-  meta(player,plataforma){
-    if (player.body.blocked.down) {
-      this.time.delayedCall(7000, () => {
-      this.scene.start("Play1"), {score, vida}; 
-    })
-	}
-}
 
   collectStar(player, star) {
     gota.play()
     star.disableBody(true, true);
-
-    //  Add and update the score
     score += 10;
     console.log(score)
     console.log(this.game.scene.scenes)
-    scoreText.setText(`Miel recolectada: ${score}`)
-    
-    //DemoA.updateScore(score)
-    // scoreText.setText("Miel juntadas: " + score + " / Vidas restantes: " + vida);
-   
+    scoreText.setText(`X ${score}`)
+  }  
+
+  meta(player,plataforma) {
+  if (player.body.blocked.down) {
+  this.time.delayedCall(1800, () => {
+    this.game.sound.stopAll();
+  this.scene.start("Inter2", {score, vida});
+    })
+	}
+
     if (stars.countActive(true) === 0) {
-      //  A new batch of stars to collect
       stars.children.iterate(function (child) {
         child.enableBody(true, child.x, child.y + 10, true, true);
       });
@@ -190,32 +218,43 @@ export class Play1 extends Phaser.Scene {
     }
   }
 
+ animsSuelo(player, suelo){
+  console.log("hola");
+  player.anims.play("quieto", true);
+ }
+
+  /*hitAvispa(player, avispa){
+    hit.play()
+    console.log(3);
+    avispa.destroy();
+    vida -= 1
+    vidaText.setText(`Vidas: ${vida}`)
+    {player.setTint(0xff0000);this.time.delayedCall(200, () => player.clearTint())};
+  }*/
+
   hitBomb(player, bomb) {
+    hit.play()
     console.log(player, bomb)
     bomb.destroy();
     vida -= 1
-    vidaText.setText(`Vidas: ${vida}`)
+    vidaText.setText(`${vida}`)
+    {player.setTint(0xff0000);this.time.delayedCall(200, () => player.clearTint())};
     
     if (vida === 0 ){
       this.physics.pause();
-
+     
       player.setTint(0xff0000);
-  
-      player.anims.play("turn");
-  
+      player.anims.play("golpe");
       gameOver = true;
-
-      // Función timeout usada para llamar la instrucción que tiene adentro despues de X milisegundos
+      this.game.sound.stopAll();
+       fail.play()
       setTimeout(() => {
-        // Instrucción que sera llamada despues del segundo
-        this.scene.start(
-          "Lost",
-          { score, vida } // se pasa el puntaje como dato a la escena RETRY
-        );
-      }, 1000); // Ese número es la cantidad de milisegundos
+        this.scene.start("Lost",{ score, vida });
+      }, 2500); 
     }
   }
-  
-
 }
+
+
+
 

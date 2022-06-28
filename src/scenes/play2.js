@@ -1,4 +1,3 @@
-// Declaracion de variables para esta escena
 var player;
 var stars;
 var bombs;
@@ -7,7 +6,14 @@ var score;
 var gameOver;
 var scoreText;
 var vidaText;
+var suelo;
 var vida;
+var miel;
+var gota;
+var hit;
+var fail;
+var vidatext;
+var ventana;
 
 export class Play2 extends Phaser.Scene {
   constructor() {
@@ -15,61 +21,64 @@ export class Play2 extends Phaser.Scene {
   }
 
   init (data) {
-    score = data.score;
-    vida = data.vida;
+    score = data.score; 
   }
 
-
   create() {
-    //scoreText=this.game.config.scoreText;
-    //console.log(this.game.config)
 
-    this.cameras.main.setBounds(0, 0, 640, 4320);
-        this.physics.world.setBounds(0, 0, 640, 4320);
+    this.music = this.sound.add("musica4");
+    var musicConfig1 = {
+      mute: false,
+      volume: 0.5,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0,
+    }
+
+    this.music.play(musicConfig1);
+
+    this.cameras.main.setBounds(0, 0, 640, 4288);
+        this.physics.world.setBounds(0, 0, 640, 4288);
     
-    const map = this.make.tilemap({ key: "map2" });
+    const map = this.make.tilemap({ key: "map3" });
 
-    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-    // Phaser's cache (i.e. the name you used in preload)
-    const tilesetBelow = map.addTilesetImage("fondo2", "tilesBelow2");
+    gota = this.sound.add('gota', {volume: 0.5})
+    hit = this.sound.add("hit", {volume: 0.5})
+    fail = this.sound.add("fail", {volume: 0.5})
+
+    const tilesetBelow = map.addTilesetImage("fondo3", "tilesBelow3");
     const tilesetPlatform = map.addTilesetImage(
-      "plataformas1",
-      "tilesPlatform2"
+      "plataforma6",
+      "tilesPlatform3"
     );
 
-    const belowLayer = map.createLayer("fondo2", tilesetBelow, 0, 0);
-    const worldLayer = map.createLayer("plataformas1", tilesetPlatform, 0, 0);
+    const belowLayer = map.createLayer("fondo3", tilesetBelow, 0, 0);
+    const worldLayer = map.createLayer("plataforma6", tilesetPlatform, 0, 0);
     const objectsLayer = map.getObjectLayer("Objetos");
- 
-   //worldLayer.setCollisionByProperty({ colision: true });
-    
 
-    //worldLayer.setCollisionByProperty({ collides: true });
-
-   // Find in the Object Layer, the name "dude" and get position
    const spawnPoint = map.findObject("Objetos", (obj) => obj.name === "IZA");
-   // The player and its settings
+
 player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "mariposa"); 
 player.anims.play("caer");
 
-//  Player physics properties. Give the little guy a slight bounce.
-player.setBounce(0.02);
+player.setBounce(0);
 player.setCollideWorldBounds(true);
-player.setVelocityY(300);
+player.setVelocityY(90);
 
-//  Input Events
+suelo = this.physics.add.sprite(450,4300,"tilesPlatform").setScale(6.0,1).setVisible(false);
+suelo.setImmovable(true);
+this.physics.add.collider(player, suelo);
+
 if ((cursors = !undefined)) {
   cursors = this.input.keyboard.createCursorKeys();
 }
-
-// Create empty group of starts
 stars = this.physics.add.staticGroup();
 objectsLayer.objects.forEach((objData) => {
   const { x = 0, y = 0, name, type } = objData;
   switch (type) {
     case "miel": {
-      // add star to scene
-      // console.log("estrella agregada: ", x, y);
       stars.create(x, y, "miel");
       break;
     }
@@ -77,41 +86,49 @@ objectsLayer.objects.forEach((objData) => {
   }
 });
 
-//bombs.create(x, y, "abeja");
-// Create empty group of bombs
 bombs = this.physics.add.group();
 objectsLayer.objects.forEach((objData) => {
   const { x = 0, y = 0, name, type } = objData;
   switch (name) {
     case "abeja": {
-      bombs.create(x, y, "avispa");
+      bombs.create(x, y, "avispasola");
       break;
     } 
 
   }
 });
 
- //  Checks to see if the player overlaps with any platform
 this.physics.add.overlap(player, worldLayer, this.meta, null, this);
 
-//  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
 this.physics.add.overlap(player, stars, this.collectStar, null, this);
 
 this.physics.add.overlap(player, bombs, this.hitBomb, null, this);
 
-gameOver = false;
-score = score||0; 
-vida = vida||3;
-scoreText = this.add.text(0, 0, `Miel recolectada: ${score}`, {fontSize: "12px",
-fill: "#000",})
-scoreText.scrollFactorX=0
-scoreText.scrollFactorY=0
-vidaText = this.add.text(0, 15, `Vidas: ${vida}`, {fontSize: "12px",
-fill: "#000",})
-vidaText.scrollFactorX=0
-vidaText.scrollFactorY=0
+ventana = this.physics.add.sprite(70, 50, "ventana").setScale(0.55);
+    ventana.scrollFactorX=0
+    ventana.scrollFactorY=0
 
-this.cameras.main.startFollow(player, true, 0.01, 0.01);
+    gameOver = false;
+    score = score||0; 
+    vida = vida||3;
+    miel = this.physics.add.sprite(40, 60, "miel").setScale(0.60);
+    miel.scrollFactorX=0
+    miel.scrollFactorY=0
+    vidatext = this.physics.add.sprite(55, 35, "vidas").setScale(0.60);
+    vidatext.scrollFactorX=0
+    vidatext.scrollFactorY=0
+ 
+    scoreText = this.add.text(58, 52, `X ${
+      score}`, {fontFamily: "arial",fontSize: "17px",
+    fill: "#FFFFFF",})
+    scoreText.scrollFactorX=0
+    scoreText.scrollFactorY=0
+    vidaText = this.add.text(90, 25, `${vida}`, {fontFamily: "arial", fontSize: "17px",
+    fill: "#FFFFFF",});
+    vidaText.scrollFactorX=0
+    vidaText.scrollFactorY=0
+
+this.cameras.main.startFollow(player, true, 0.25, 0.25);
 
     this.cameras.main.setZoom(1);
 
@@ -133,40 +150,31 @@ if (cursors.left.isDown) {
   player.anims.play("caer", true);
   player.setVelocityX(0);
 
-  //player.anims.play("turn");
 }
-//if (cursors.left.isUp || cursors.right.isUp){
-  //player.anims.play("caer", true);
-//}
-// REPLACE player.body.touching.down
+
 if (cursors.up.isDown && player.body.blocked.down) {
   player.setVelocityY(-330);
 }
 }
 
-meta(player,plataforma){
-  if (player.body.blocked.down) {
-    this.time.delayedCall(7000, () => {
-    this.scene.start("Play1"), {score, vida}; 
-  })
-}
-}
-
-
 collectStar(player, star) {
+gota.play()
 star.disableBody(true, true);
-
-//  Add and update the score
 score += 10;
 console.log(score)
 console.log(this.game.scene.scenes)
-scoreText.setText(`Miel recolectada: ${score}`)
+scoreText.setText(`X ${score}`)
+}  
 
-//DemoA.updateScore(score)
-// scoreText.setText("Miel juntadas: " + score + " / Vidas restantes: " + vida);
+meta(player,plataforma){
+  if (player.body.blocked.down) {
+  this.time.delayedCall(1800, () => {     
+  this.scene.start("Inter3", {score, vida});
+  this.game.sound.stopAll();
+    })
+	}
 
 if (stars.countActive(true) === 0) {
-  //  A new batch of stars to collect
   stars.children.iterate(function (child) {
     child.enableBody(true, child.x, child.y + 10, true, true);
   });
@@ -184,28 +192,23 @@ if (stars.countActive(true) === 0) {
 }
 
 hitBomb(player, bomb) {
+  hit.play()
 console.log(player, bomb)
 bomb.destroy();
 vida -= 1
-vidaText.setText(`Vidas: ${vida}`)
+vidaText.setText(`${vida}`)
+{player.setTint(0xff0000);this.time.delayedCall(200, () => player.clearTint())};
 
 if (vida === 0 ){
   this.physics.pause();
-
   player.setTint(0xff0000);
-
-  player.anims.play("turn");
-
+  player.anims.play("golpe");
   gameOver = true;
-
-  // Función timeout usada para llamar la instrucción que tiene adentro despues de X milisegundos
+  this.game.sound.stopAll();
+  fail.play()
   setTimeout(() => {
-    // Instrucción que sera llamada despues del segundo
-    this.scene.start(
-      "Lost",
-      { score, vida } // se pasa el puntaje como dato a la escena RETRY
-    );
-  }, 1000); // Ese número es la cantidad de milisegundos
+    this.scene.start("Lost",{ score, vida });
+  }, 2500); 
 }
 }
 
